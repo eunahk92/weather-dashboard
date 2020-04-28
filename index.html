@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <h3 class="navbar-text mx-auto text-white">
+            WEATHER DASHBOARD
+        </h3>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Empty div for spacing -->
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-3 sidebarNav">
+                <div class="row mt-2"><h5>Search for a City:</h5></div>
+                <!-- Search input box and button-->
+                <div class="row input-group input-group-sm mb-3">
+                    <input type="text" class="searchBox form-control input-group-sm mr-sm-1" aria-label="Sizing example input" aria-describedby="button-addon1" placeholder="Search">
+                    <button class="searchBtn btn btn-outline-primary btn-sm" type="submit">Search</button>
+                </div>
+                <!-- Div that will hold the cities user searches-->
+                <div class="citiesDiv row mt-1 pr-4"></div>
+            </div>
+
+            <!-- Div that will display weather info for the city -->
+            <div class="col-lg-7 mt-2">
+                <div class="row weather border border-secondary rounded-lg pt-4">
+                    <!-- Container to display temperature-->
+                    <div class="displayTemp col-lg-6">
+                        <!-- Container to display city name-->
+                        <div class="row city-name"></div>
+                        <!-- Container to display temp-->
+                        <div class="row city-temp"></div>
+                    <!-- Container to display other weather info-->
+                    </div>
+                    <div class="misc-weather col-lg-6"></div>
+                </div>
+                <!-- Div that will show 5 day forecast for the city -->
+                <div class="forecast mt-1 card-deck border-0 pt-4"></div>
+            </div>
+
+            <!-- Empty div for spacing -->
+            <div class="col-lg-1"></div>
+        </div>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
