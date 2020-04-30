@@ -14,19 +14,25 @@ table, th, td  {
 }
 
 table {
-    table-layout: center;
+    table-layout: fixed;
     width: 100%;
 }
 
 td {
-    width: 20%;
+    width: 10%;
 }
 
 .weather, .forecast, .misc-weather {
     width: 100%;
-    height: 250px;
 }
 
-#temp {
-    font-size: 50px;
+.temp {
+    font-size: 75px;
 }
+
+.smText {
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+}
+
