@@ -78,7 +78,7 @@ renderWeather = () => {
         $('.date').append(date);
         $('.misc-weather').append(weatherInfo);
 
-        let uvURL = `http://api.openweathermap.org/data/2.5/uvi?&appid=${apiKey}&lat=${lat}&lon=${long}`;
+        let uvURL = `https://api.openweathermap.org/data/2.5/uvi?&appid=${apiKey}&lat=${lat}&lon=${long}`;
         // ajax request to get uv index info
         $.ajax({
             url: uvURL, 
