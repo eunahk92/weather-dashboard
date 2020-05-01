@@ -171,8 +171,9 @@ renderLastSearched = () => {
             city = citiesArr[y];
             renderButton(city);
         }
-        var lastSearchedCity = localStorage.getItem('last_searched');
-        renderWeather(lastSearchedCity);
+        city = localStorage.getItem('last_searched');
+        console.log(city);
+        renderWeather(city);
     }
 }
 
