@@ -22,6 +22,7 @@ renderWeather = () => {
         if (citiesArr.indexOf(city) == -1) {
             citiesArr.push(city);
             renderButton(city);
+            localStorage.setItem('last_searched', city);
         } else {
             renderButton(city);
         }
@@ -172,9 +173,8 @@ renderLastSearched = () => {
             renderButton(city);
         }
         city = localStorage.getItem('last_searched');
-        console.log(city);
         renderWeather(city);
-    }
+    } 
 }
 
 // Event listener on search button
