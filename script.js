@@ -5,7 +5,7 @@ var lat = '';
 var long = '';
 var weatherStatus = '';
 var icon = '';
-var citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
+var citiesArr = JSON.parse(localStorage.getItem('cities')) || [];
 
 renderWeather = () => {
     $('.displaytemp, .city-name, .temp, .forecast, .misc-weather, .date').empty();
@@ -14,7 +14,7 @@ renderWeather = () => {
     // ajax request to get daily weather info
     $.ajax({
         url: dailyURL, 
-        method: "GET"
+        method: 'GET'
     }).then(function(response) {
         // Save JSON city name 
         city = response.name;
@@ -171,8 +171,8 @@ renderLastSearched = () => {
             city = citiesArr[y];
             renderButton(city);
         }
-        var lastCity = citiesArr[citiesArr.length - 1];
-        renderWeather(lastCity);
+        var lastSearchedCity = localStorage.getItem('last_searched');
+        renderWeather(lastSearchedCity);
     }
 }
 
@@ -187,7 +187,7 @@ $('.searchBtn').on('click', function(e) {
 // Grab city data name when a button is clicked on the document
 $('.citiesDiv').on('click', '#city', function() {
     city = $(this).text();
-    citiesArr.push(citiesArr.splice(citiesArr.indexOf(city), 1)[0]);
+    localStorage.setItem("last_searched", city);
     renderWeather();
 });
 
