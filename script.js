@@ -1,5 +1,5 @@
 let todaysDate = moment().format('M/D/YYYY');
-let apiKey = '5cd5fd2d9b30522ba32d64386d6c6f6c';
+let apiKey = 'd109526d72640a57247ed0c59ef7c7a2';
 var city = '';
 var lat = '';
 var long = '';
