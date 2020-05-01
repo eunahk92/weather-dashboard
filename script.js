@@ -6,7 +6,6 @@ var long = '';
 var weatherStatus = '';
 var icon = '';
 var citiesArr = JSON.parse(localStorage.getItem("cities")) || [];
-console.log(citiesArr);
 
 renderWeather = () => {
     $('.displaytemp, .city-name, .temp, .forecast, .misc-weather, .date').empty();
@@ -145,7 +144,7 @@ renderButton = (city) => {
     $('.citiesDiv').empty();
     for (var i = 0; i < citiesArr.length; i++) {
         var cityBtn = `
-            <button type="button" class="btn btn-outline-primary btn-block" id="city" data-name="${citiesArr[i]}">${citiesArr[i]}</button>
+            <button type="button" class="btn btn-outline-primary btn-block" id="city">${citiesArr[i]}</button>
         `
         $('.citiesDiv').prepend(cityBtn);
         localStorage.setItem("cities", JSON.stringify(citiesArr));
@@ -166,6 +165,17 @@ renderWeatherIcon = (weatherStatus) => {
     }
 }
 
+renderLastSearched = () => {
+    if (citiesArr.length != 0) {
+        for (var y = 0; y < citiesArr.length; y++) {
+            city = citiesArr[y];
+            renderButton(city);
+        }
+        var lastCity = citiesArr[citiesArr.length - 1];
+        renderWeather(lastCity);
+    }
+}
+
 // Event listener on search button
 $('.searchBtn').on('click', function(e) {
     e.preventDefault();
@@ -175,14 +185,10 @@ $('.searchBtn').on('click', function(e) {
 })
 
 // Grab city data name when a button is clicked on the document
-$(document).on('click', '#city', function() {
-    city = $(this).attr('data-name');
+$('.citiesDiv').on('click', '#city', function() {
+    city = $(this).text();
+    citiesArr.push(citiesArr.splice(citiesArr.indexOf(city), 1)[0]);
     renderWeather();
 });
 
-// if (citiesArr.length != 0) {
-//     for (var y = 0; y < citiesArr.length; y++) {
-//         city = citiesArr[y];
-//         renderButton(city);
-//     }
-// }
+renderLastSearched();
