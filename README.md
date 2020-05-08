@@ -2,6 +2,10 @@
 
 Challenge our knowledge of retrieving data from another appliction's API by creating a weather dashboard that relays daily and forecasted weather information to the user when the user searches for a specific city. 
 
+## Link to Deployed Application
+
+https://eunahk92.github.io/weather-dashboard/
+
 ## User Story
 
 ```
