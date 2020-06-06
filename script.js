@@ -1,11 +1,11 @@
 let todaysDate = moment().format('M/D/YYYY');
-let apiKey = 'd109526d72640a57247ed0c59ef7c7a2';
-var city = '';
-var lat = '';
-var long = '';
-var weatherStatus = '';
-var icon = '';
-var citiesArr = JSON.parse(localStorage.getItem('cities')) || [];
+const apiKey = 'd109526d72640a57247ed0c59ef7c7a2';
+let city = '';
+let lat = '';
+let lon = '';
+let weatherStatus = '';
+let icon = '';
+let citiesArr = JSON.parse(localStorage.getItem('cities')) || [];
 
 renderWeather = () => {
     $('.displaytemp, .city-name, .temp, .forecast, .misc-weather, .date').empty();
@@ -16,35 +16,35 @@ renderWeather = () => {
         url: dailyURL, 
         method: 'GET'
     }).then(function(response) {
+        console.log(response);
         // Save JSON city name 
-        city = response.name;
+        const { name } = response;
         // Create button if already not pre-existing
-        if (citiesArr.indexOf(city) == -1) {
-            citiesArr.push(city);
-            renderButton(city);
-            localStorage.setItem('last_searched', city);
+        if (citiesArr.indexOf(name) == -1) {
+            citiesArr.push(name);
+            renderButton(name);
+            localStorage.setItem('last_searched', name);
         } else {
-            renderButton(city);
+            renderButton(name);
         }
         // Convert temp
-        var kToFarh = ((response.main.temp - 273.15) * 1.8 + 32).toFixed(0);
+        let kToFarh = ((response.main.temp - 273.15) * 1.8 + 32).toFixed(0);
         // Convert sunrise to a time
-        var sunriseTime = new Date(response.sys.sunrise * 1000).toLocaleTimeString([], {timeStyle: 'short'});
+        let sunriseTime = new Date(response.sys.sunrise * 1000).toLocaleTimeString([], {timeStyle: 'short'});
         // Convert sunset to a time
-        var sunsetTime = new Date(response.sys.sunset * 1000).toLocaleTimeString([], {timeStyle: 'short'});
-        // Save lat & long coordinates
-        long = response.coord.lon;
-        lat = response.coord.lat;
+        let sunsetTime = new Date(response.sys.sunset * 1000).toLocaleTimeString([], {timeStyle: 'short'});
+        // Save lat & lon coordinates
+        const { lon, lat } = response.coord;
 
         // Save weather status description
         weatherStatus = response.weather[0].description;
         // Check weather conditions for icon display
         renderWeatherIcon(weatherStatus);
 
-        var cityName = `<h4 class='mx-auto cityTitle'>${city} ${icon}</h4>`
-        var date = `<h5 class='mx-auto'>${todaysDate}</h5>`
-        var temperature = `<p class='mx-auto'>${kToFarh}°F</p>`
-        var weatherInfo = `
+        let cityName = `<h4 class='mx-auto cityTitle'>${name} ${icon}</h4>`
+        let date = `<h5 class='mx-auto'>${todaysDate}</h5>`
+        let temperature = `<p class='mx-auto'>${kToFarh}°F</p>`
+        let weatherInfo = `
             <table class='table-responsive mb-3'>
                 <tr>
                     <td id='top-row'>Pressure</td>
@@ -78,26 +78,26 @@ renderWeather = () => {
         $('.date').append(date);
         $('.misc-weather').append(weatherInfo);
 
-        let uvURL = `https://api.openweathermap.org/data/2.5/uvi?&appid=${apiKey}&lat=${lat}&lon=${long}`;
+        let uvURL = `https://api.openweathermap.org/data/2.5/uvi?&appid=${apiKey}&lat=${lat}&lon=${lon}`;
         // ajax request to get uv index info
         $.ajax({
             url: uvURL, 
             method: "GET"
-        }).then(function(uvResult) {
-            var uvIndex = uvResult.value;
-            if (uvIndex <= 2) {
-                var lowIndex = `
-                    <button type="button" class="btn btn-sm btn-success">${uvIndex}</button>
+        }).then(function(res) {
+            let { value } = res;
+            if (value <= 2) {
+                let lowIndex = `
+                    <button type="button" class="btn btn-sm btn-success">${value}</button>
                 `
                 $('.cityUVIndex').html(lowIndex);
-            } else if (uvIndex >= 3 && uvIndex <= 5) {
-                var moderateIndex = `
-                    <button type="button" class="btn btn-sm btn-warning">${uvIndex}</button>
+            } else if (value >= 3 && value <= 5) {
+                let moderateIndex = `
+                    <button type="button" class="btn btn-sm btn-warning">${value}</button>
                 `
                 $('.cityUVIndex').html(moderateIndex);
-            } else if (uvIndex >=6) {
-                var highIndex = `
-                    <button type="button" class="btn btn-sm btn-danger">${uvIndex}</button>
+            } else if (value >=6) {
+                let highIndex = `
+                    <button type="button" class="btn btn-sm btn-danger">${value}</button>
                 `
                 $('.cityUVIndex').html(highIndex);
             }
@@ -109,16 +109,16 @@ renderWeather = () => {
     $.ajax({
         url: forecastURL, 
         method: "GET"
-    }).then(function(forecastResult) {
-        for (var f = 0; f < forecastResult.list.length; f++) {
-            let forecastTime = forecastResult.list[f].dt_txt.substr(11, forecastResult.list.length - 1);
+    }).then(function(res) {
+        for (let f = 0; f < res.list.length; f++) {
+            let forecastTime = res.list[f].dt_txt.substr(11, res.list.length - 1);
             if (forecastTime === '15:00:00') {
-                let nextDate = forecastResult.list[f].dt_txt.substr(5,6);
-                var kToFarh = ((forecastResult.list[f].main.temp- 273.15) * 1.8 + 32).toFixed(0);
-                weatherStatus = forecastResult.list[f].weather[0].description;
+                let nextDate = res.list[f].dt_txt.substr(5,6);
+                let kToFarh = ((res.list[f].main.temp- 273.15) * 1.8 + 32).toFixed(0);
+                weatherStatus = res.list[f].weather[0].description;
                 renderWeatherIcon(weatherStatus);
                 $('.forecast').addClass('card');
-                var forecast = `
+                let forecast = `
                     <div class="card-header d-flex flex-row" style="background: #ecf0f1">
                         <div class="col-3">
                             <span class="badge badge-dark p-2 align-self-center ">${nextDate}</span>
@@ -130,8 +130,8 @@ renderWeather = () => {
                         <p class="text-center ml-1">${kToFarh}°F</p>
                         </div>
                         <div class="col-5">
-                            <p class="row smText">humidity: ${forecastResult.list[f].main.humidity}% <br> 
-                            pressure: ${forecastResult.list[f].main.pressure} hpa</p>
+                            <p class="row smText">humidity: ${res.list[f].main.humidity}% <br> 
+                            pressure: ${res.list[f].main.pressure} hpa</p>
                         </div>
                     </div>
                 `
@@ -143,8 +143,8 @@ renderWeather = () => {
 
 renderButton = (city) => {
     $('.citiesDiv').empty();
-    for (var i = 0; i < citiesArr.length; i++) {
-        var cityBtn = `
+    for (let i = 0; i < citiesArr.length; i++) {
+        let cityBtn = `
             <button type="button" class="btn btn-outline-primary btn-block" id="city">${citiesArr[i]}</button>
         `
         $('.citiesDiv').prepend(cityBtn);
@@ -168,7 +168,7 @@ renderWeatherIcon = (weatherStatus) => {
 
 renderLastSearched = () => {
     if (citiesArr.length != 0) {
-        for (var y = 0; y < citiesArr.length; y++) {
+        for (let y = 0; y < citiesArr.length; y++) {
             city = citiesArr[y];
             renderButton(city);
         }
